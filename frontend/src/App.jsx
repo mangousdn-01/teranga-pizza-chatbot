@@ -21,6 +21,7 @@ function App() {
   ]);
   
   const [orderFlow, setOrderFlow] = useState('idle'); // idle, asking_items, asking_delivery, asking_address, asking_payment, completed
+  const [deliveryType, setDeliveryType] = useState(''); // delivery, pickup
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef(null);
 
@@ -54,12 +55,14 @@ function App() {
     else if (value === 'delivery') {
       addMessage('user', 'text', 'Livraison 🛵');
       setOrderFlow('asking_address');
+      setDeliveryType('delivery');
       setTimeout(() => {
         addMessage('bot', 'text', 'Pouvez-vous nous envoyer votre adresse de livraison ?\nMeun nga nu jox sa adresse ngir livraison bi ?');
       }, 500);
     } else if (value === 'pickup') {
       addMessage('user', 'text', 'Récupérer sur place 🏪 / Jëlsi ko');
       setOrderFlow('asking_payment');
+      setDeliveryType('pickup');
       setTimeout(() => {
         addMessage('bot', 'text', 'D\'accord. Quel est votre méthode de paiement ?\nBaxna. Yanu anam paiement nga bëgga def ?');
         addMessage('bot', 'options', null, [
@@ -89,7 +92,14 @@ function App() {
         })
       }).catch(err => console.error("Erreur serveur:", err));
 
-      addMessage('bot', 'text', "Merci pour votre commande ! Notre équipe va la préparer immédiatement.\n📞 Contact: 770060001 | 📍 Adresse: Dakar, Medina | ✉️ Email: terangapizza@gmail.com\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Sunu équipe dina ko waajal léegi léegi. Soo soxlaa jokkoo ak ñun, mën nga nu wóoté ci 770060001. Ba bénnén yoon ci Teranga Pizza !");
+      let confirmationMessage = '';
+      if (deliveryType === 'delivery') {
+        confirmationMessage = "Merci pour votre commande ! Notre livreur vous contactera bientôt.\n📞 Contact: 770060001\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Sunu livreur dina la wóoté léegi. Soo soxlaa jokkoo ak ñun: 📞 770060001. Ba bénnén yoon !";
+      } else {
+        confirmationMessage = "Merci pour votre commande ! Notre équipe va la préparer immédiatement. Vous pouvez la récupérer sur place.\n📞 Contact: 770060001 | 📍 Adresse: Dakar, Medina | ✉️ Email: terangapizza@gmail.com\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Mën nga ñëw jëlsi ko. Sunu adresse: Dakar, Medina. Soo soxlaa jokkoo ak ñun: 📞 770060001. Ba bénnén yoon !";
+      }
+
+      addMessage('bot', 'text', confirmationMessage);
     }
   };
 
