@@ -121,7 +121,7 @@ function App() {
       if (orderFlow === 'asking_items') {
         // Assume user provided items, move to delivery option
         setOrderFlow('asking_delivery');
-        addMessage('bot', 'text', "C'est noté! Avez-vous besoin d'une livraison ou passerez-vous récupérer votre commande ?\nDégg naa! Ndax dangay soxla ñu livré la wala dangay ñëw jëlsi ko ?");
+        addMessage('bot', 'text', "Très bon choix ! C'est noté. Avez-vous besoin d'une livraison ou passerez-vous récupérer votre commande ?\nTànn bu rafet ! Dégg naa. Ndax dangay soxla ñu livré la wala dangay ñëw jëlsi ko ?");
         addMessage('bot', 'options', null, [
           { label: 'Livraison 🛵', value: 'delivery' },
           { label: 'Récupérer sur place 🏪 / Jëlsi ko', value: 'pickup' }
