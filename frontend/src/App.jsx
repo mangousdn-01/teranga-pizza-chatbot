@@ -109,7 +109,7 @@ function App() {
           })
         }).catch(err => console.error("Erreur serveur:", err));
 
-        addMessage('bot', 'text', "Merci pour votre commande ! Notre équipe va la préparer immédiatement. À très bientôt chez Teranga Pizza !\nJërëjëf ci sa commande ! Sunu équipe dina ko waajal léegi léegi. Ba bénnén yoon ci Teranga Pizza !");
+        addMessage('bot', 'text', "Merci pour votre commande ! Notre équipe va la préparer immédiatement.\n📞 Contact: 770060001 | 📍 Adresse: Dakar, Medina | ✉️ Email: terangapizza@gmail.com\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Sunu équipe dina ko waajal léegi léegi. Soo soxlaa jokkoo ak ñun, mën nga nu wóoté ci 770060001. Ba bénnén yoon ci Teranga Pizza !");
       } else {
         // Fallback for general conversation if not in order flow
         addMessage('bot', 'text', "Je suis encore en apprentissage. Veuillez utiliser les boutons.\nMënaguma dégg luñuy bind bu baax. Jëfandikool bouton yi.");
