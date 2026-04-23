@@ -62,7 +62,34 @@ function App() {
       setOrderFlow('asking_payment');
       setTimeout(() => {
         addMessage('bot', 'text', 'D\'accord. Quel est votre méthode de paiement ?\nBaxna. Yanu anam paiement nga bëgga def ?');
+        addMessage('bot', 'options', null, [
+          { label: 'Orange Money 🟠', value: 'pay_orange' },
+          { label: 'Wave 🌊', value: 'pay_wave' },
+          { label: 'Espèces 💵 / Xalis', value: 'pay_cash' }
+        ]);
       }, 500);
+    } else if (value.startsWith('pay_')) {
+      let paymentText = '';
+      if (value === 'pay_orange') paymentText = 'Orange Money';
+      else if (value === 'pay_wave') paymentText = 'Wave';
+      else if (value === 'pay_cash') paymentText = 'Espèces / Xalis';
+      
+      addMessage('user', 'text', paymentText);
+      setOrderFlow('completed');
+        
+      // Send order to backend
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      fetch(`${apiUrl}/api/order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          chatHistory: messages.map(m => m.content).filter(Boolean).slice(-6),
+          paymentMethod: paymentText,
+          timestamp: new Date().toISOString()
+        })
+      }).catch(err => console.error("Erreur serveur:", err));
+
+      addMessage('bot', 'text', "Merci pour votre commande ! Notre équipe va la préparer immédiatement.\n📞 Contact: 770060001 | 📍 Adresse: Dakar, Medina | ✉️ Email: terangapizza@gmail.com\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Sunu équipe dina ko waajal léegi léegi. Soo soxlaa jokkoo ak ñun, mën nga nu wóoté ci 770060001. Ba bénnén yoon ci Teranga Pizza !");
     }
   };
 
@@ -93,23 +120,11 @@ function App() {
         // User provided address, ask for payment
         setOrderFlow('asking_payment');
         addMessage('bot', 'text', "Parfait. Quel est votre méthode de paiement ?\nBaxna. Yanu anam paiement nga bëgga def ?");
-      } else if (orderFlow === 'asking_payment') {
-        // User provided payment method, confirm order
-        setOrderFlow('completed');
-        
-        // Send order to backend
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        fetch(`${apiUrl}/api/order`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            chatHistory: messages.map(m => m.content).filter(Boolean).slice(-6),
-            paymentMethod: userText,
-            timestamp: new Date().toISOString()
-          })
-        }).catch(err => console.error("Erreur serveur:", err));
-
-        addMessage('bot', 'text', "Merci pour votre commande ! Notre équipe va la préparer immédiatement.\n📞 Contact: 770060001 | 📍 Adresse: Dakar, Medina | ✉️ Email: terangapizza@gmail.com\nÀ très bientôt chez Teranga Pizza !\n\nJërëjëf ci sa commande ! Sunu équipe dina ko waajal léegi léegi. Soo soxlaa jokkoo ak ñun, mën nga nu wóoté ci 770060001. Ba bénnén yoon ci Teranga Pizza !");
+        addMessage('bot', 'options', null, [
+          { label: 'Orange Money 🟠', value: 'pay_orange' },
+          { label: 'Wave 🌊', value: 'pay_wave' },
+          { label: 'Espèces à la livraison 💵 / Xalis', value: 'pay_cash' }
+        ]);
       } else {
         // Fallback for general conversation if not in order flow
         addMessage('bot', 'text', "Je suis encore en apprentissage. Veuillez utiliser les boutons.\nMënaguma dégg luñuy bind bu baax. Jëfandikool bouton yi.");
