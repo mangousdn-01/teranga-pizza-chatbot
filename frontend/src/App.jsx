@@ -66,16 +66,16 @@ function App() {
       setTimeout(() => {
         addMessage('bot', 'text', 'D\'accord. Quel est votre méthode de paiement ?\nBaxna. Yanu anam paiement nga bëgga def ?');
         addMessage('bot', 'options', null, [
-          { label: 'Orange Money 🟠', value: 'pay_orange' },
-          { label: 'Wave 🌊', value: 'pay_wave' },
-          { label: 'Espèces 💵 / Xalis', value: 'pay_cash' }
+          { label: 'Orange money', value: 'pay_orange' },
+          { label: 'Wave', value: 'pay_wave' },
+          { label: 'Espèces / Xaalis ci loxo', value: 'pay_cash' }
         ]);
       }, 500);
     } else if (value.startsWith('pay_')) {
       let paymentText = '';
-      if (value === 'pay_orange') paymentText = 'Orange Money';
+      if (value === 'pay_orange') paymentText = 'Orange money';
       else if (value === 'pay_wave') paymentText = 'Wave';
-      else if (value === 'pay_cash') paymentText = 'Espèces / Xalis';
+      else if (value === 'pay_cash') paymentText = 'Espèces / Xaalis ci loxo';
       
       addMessage('user', 'text', paymentText);
       setOrderFlow('completed');
@@ -131,9 +131,9 @@ function App() {
         setOrderFlow('asking_payment');
         addMessage('bot', 'text', "Parfait. Quel est votre méthode de paiement ?\nBaxna. Yanu anam paiement nga bëgga def ?");
         addMessage('bot', 'options', null, [
-          { label: 'Orange Money 🟠', value: 'pay_orange' },
-          { label: 'Wave 🌊', value: 'pay_wave' },
-          { label: 'Espèces à la livraison 💵 / Xalis', value: 'pay_cash' }
+          { label: 'Orange money', value: 'pay_orange' },
+          { label: 'Wave', value: 'pay_wave' },
+          { label: 'Espèces / Xaalis ci loxo', value: 'pay_cash' }
         ]);
       } else {
         // Fallback for general conversation if not in order flow
