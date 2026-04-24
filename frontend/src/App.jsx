@@ -20,8 +20,9 @@ function App() {
     }
   ]);
   
-  const [orderFlow, setOrderFlow] = useState('idle'); // idle, asking_items, asking_delivery, asking_address, asking_payment, completed
+  const [orderFlow, setOrderFlow] = useState('idle'); // idle, asking_items, asking_confirmation, asking_delivery, asking_address, asking_payment, completed
   const [deliveryType, setDeliveryType] = useState(''); // delivery, pickup
+  const [orderItems, setOrderItems] = useState(''); // the text the user wrote for their order
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef(null);
 
@@ -51,8 +52,24 @@ function App() {
         addMessage('bot', 'text', 'Très bien! Dites-moi les pizzas et jus que vous souhaitez commander.\nBaxna! Waxma yanu pizza ak njar nga bëgg.');
       }, 500);
     } 
+    } else if (value === 'confirm_yes') {
+      addMessage('user', 'text', 'Oui / Waaw ✅');
+      setOrderFlow('asking_delivery');
+      setTimeout(() => {
+        addMessage('bot', 'text', "C'est noté. Avez-vous besoin d'une livraison ou passerez-vous récupérer votre commande ?\nDégg naa. Ndax dangay soxla ñu livré la wala dangay ñëw jëlsi ko ?");
+        addMessage('bot', 'options', null, [
+          { label: 'Livraison 🛵', value: 'delivery' },
+          { label: 'Récupérer sur place 🏪 / Jëlsi ko', value: 'pickup' }
+        ]);
+      }, 500);
+    } else if (value === 'confirm_no') {
+      addMessage('user', 'text', 'Non / Déedéet ❌');
+      setOrderFlow('asking_items');
+      setTimeout(() => {
+        addMessage('bot', 'text', "D'accord, annulé. Dites-moi les pizzas et jus que vous souhaitez commander à la place.\nBaxna, dindi nañu ko. Waxma yanu pizza ak njar nga bëgg loolu.");
+      }, 500);
     // Delivery selection handling
-    else if (value === 'delivery') {
+    } else if (value === 'delivery') {
       addMessage('user', 'text', 'Livraison 🛵');
       setOrderFlow('asking_address');
       setDeliveryType('delivery');
@@ -119,12 +136,12 @@ function App() {
     // State Machine for the Ordering Flow
     setTimeout(() => {
       if (orderFlow === 'asking_items') {
-        // Assume user provided items, move to delivery option
-        setOrderFlow('asking_delivery');
-        addMessage('bot', 'text', "Très bon choix ! C'est noté. Avez-vous besoin d'une livraison ou passerez-vous récupérer votre commande ?\nTànn bu rafet ! Dégg naa. Ndax dangay soxla ñu livré la wala dangay ñëw jëlsi ko ?");
+        setOrderItems(userText);
+        setOrderFlow('asking_confirmation');
+        addMessage('bot', 'text', `Très bon choix ! Voici le résumé de votre commande : "${userText}". Le prix total est estimé à 7500 FCFA. Confirmez-vous cette commande ?\n\nTànn bu rafet ! Mëngi nii sa commande : "${userText}". Total bi 7500 FCFA la. Ndax danga d'accord ?`);
         addMessage('bot', 'options', null, [
-          { label: 'Livraison 🛵', value: 'delivery' },
-          { label: 'Récupérer sur place 🏪 / Jëlsi ko', value: 'pickup' }
+          { label: 'Oui / Waaw ✅', value: 'confirm_yes' },
+          { label: 'Non / Déedéet ❌', value: 'confirm_no' }
         ]);
       } else if (orderFlow === 'asking_address') {
         // User provided address, ask for payment
