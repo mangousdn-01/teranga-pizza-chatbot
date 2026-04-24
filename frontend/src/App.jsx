@@ -50,7 +50,6 @@ function App() {
       setTimeout(() => {
         addMessage('bot', 'text', 'Très bien! Dites-moi les pizzas et jus que vous souhaitez commander.\nBaxna! Waxma yanu pizza ak njar nga bëgg.');
       }, 500);
-    } 
     } else if (value === 'confirm_yes') {
       addMessage('user', 'text', 'Oui / Waaw ✅');
       setOrderFlow('asking_delivery');
