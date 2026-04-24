@@ -22,7 +22,6 @@ function App() {
   
   const [orderFlow, setOrderFlow] = useState('idle'); // idle, asking_items, asking_confirmation, asking_delivery, asking_address, asking_payment, completed
   const [deliveryType, setDeliveryType] = useState(''); // delivery, pickup
-  const [orderItems, setOrderItems] = useState(''); // the text the user wrote for their order
   const [inputText, setInputText] = useState('');
   const messagesEndRef = useRef(null);
 
@@ -136,7 +135,6 @@ function App() {
     // State Machine for the Ordering Flow
     setTimeout(() => {
       if (orderFlow === 'asking_items') {
-        setOrderItems(userText);
         setOrderFlow('asking_confirmation');
         addMessage('bot', 'text', `Très bon choix ! Voici le résumé de votre commande : "${userText}". Le prix total est estimé à 7500 FCFA. Confirmez-vous cette commande ?\n\nTànn bu rafet ! Mëngi nii sa commande : "${userText}". Total bi 7500 FCFA la. Ndax danga d'accord ?`);
         addMessage('bot', 'options', null, [
