@@ -150,13 +150,18 @@ function App() {
           { label: 'Espèces / Xaalis ci loxo', value: 'pay_cash' }
         ]);
       } else if (orderFlow === 'completed') {
-        const postOrderReplies = [
-          "Merci encore de faire confiance à Teranga Pizza ! N'hésitez pas si vous avez d'autres questions.\nJërëjëfati ci sa wóolu Teranga Pizza ! Bóo amé yeneen laaj, mën nga leen wax.",
-          "Votre commande est en cours de traitement. À très bientôt !\nÑu ngi ci sa commande. Ba bénnén yoon !",
-          "Si vous souhaitez passer une autre commande, veuillez recharger la page. Bonne dégustation !\nSoo bëggé def bénnén commande, defal actualiser page bi. Na la def jamm !"
-        ];
-        const randomReply = postOrderReplies[Math.floor(Math.random() * postOrderReplies.length)];
-        addMessage('bot', 'text', randomReply);
+        const lowerText = userText.toLowerCase();
+        if (lowerText.includes('merci') || lowerText.includes('thank') || lowerText.includes('jerejef') || lowerText.includes('jërëjëf') || lowerText.includes('dieuredieuf')) {
+          addMessage('bot', 'text', "Merci, votre satisfaction est notre priorité. À très bientôt !\nJërëjëf, sen yité sunu yité. Ba bénnén yoon !");
+        } else {
+          const postOrderReplies = [
+            "Merci encore de faire confiance à Teranga Pizza ! N'hésitez pas si vous avez d'autres questions.\nJërëjëfati ci sa wóolu Teranga Pizza ! Bóo amé yeneen laaj, mën nga leen wax.",
+            "Votre commande est en cours de traitement. À très bientôt !\nÑu ngi ci sa commande. Ba bénnén yoon !",
+            "Si vous souhaitez passer une autre commande, veuillez recharger la page. Bonne dégustation !\nSoo bëggé def bénnén commande, defal actualiser page bi. Na la def jamm !"
+          ];
+          const randomReply = postOrderReplies[Math.floor(Math.random() * postOrderReplies.length)];
+          addMessage('bot', 'text', randomReply);
+        }
       } else {
         // Fallback for general conversation if not in order flow
         addMessage('bot', 'text', "Je suis à votre disposition. Que puis-je faire pour vous aujourd'hui ? Veuillez utiliser les boutons au-dessus.\nÑu ngi fi ngir yow. Luñu la mënël tay ? Jëfandikool bouton yi ci kaw.");
