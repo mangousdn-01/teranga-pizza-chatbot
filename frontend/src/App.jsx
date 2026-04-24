@@ -149,9 +149,17 @@ function App() {
           { label: 'Wave', value: 'pay_wave' },
           { label: 'Espèces / Xaalis ci loxo', value: 'pay_cash' }
         ]);
+      } else if (orderFlow === 'completed') {
+        const postOrderReplies = [
+          "Merci encore de faire confiance à Teranga Pizza ! N'hésitez pas si vous avez d'autres questions.\nJërëjëfati ci sa wóolu Teranga Pizza ! Bóo amé yeneen laaj, mën nga leen wax.",
+          "Votre commande est en cours de traitement. À très bientôt !\nÑu ngi ci sa commande. Ba bénnén yoon !",
+          "Si vous souhaitez passer une autre commande, veuillez recharger la page. Bonne dégustation !\nSoo bëggé def bénnén commande, defal actualiser page bi. Na la def jamm !"
+        ];
+        const randomReply = postOrderReplies[Math.floor(Math.random() * postOrderReplies.length)];
+        addMessage('bot', 'text', randomReply);
       } else {
         // Fallback for general conversation if not in order flow
-        addMessage('bot', 'text', "Je suis encore en apprentissage. Veuillez utiliser les boutons.\nMënaguma dégg luñuy bind bu baax. Jëfandikool bouton yi.");
+        addMessage('bot', 'text', "Je suis à votre disposition. Que puis-je faire pour vous aujourd'hui ? Veuillez utiliser les boutons au-dessus.\nÑu ngi fi ngir yow. Luñu la mënël tay ? Jëfandikool bouton yi ci kaw.");
       }
     }, 1000);
   };
